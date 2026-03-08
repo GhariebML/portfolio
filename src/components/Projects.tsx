@@ -1,161 +1,202 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'motion/react';
-import { Github, ExternalLink, ArrowUpRight, ChevronLeft, ChevronRight, X, Play, AlertCircle } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { Github, ExternalLink, ArrowUpRight, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import ProjectModal, { Project } from './ProjectModal';
 
-const ProjectMedia = ({ project, y }: { project: Project, y: any }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
+const projects: Project[] = [
+  {
+    title: "Telco Customer Churn Prediction",
+    description: "End-to-End Telco Customer Churn Prediction with Machine Learning and an Interactive App.",
+    tags: ["Python", "Machine Learning", "Data Analysis", "Classification"],
+    impact: "Predictive model to identify at-risk customers and improve retention strategies",
+    image: "https://picsum.photos/seed/churn/800/600",
+    github: "https://github.com/GhariebML/Telco_Churn_Prediction",
+    demo: "#",
+    problemStatement: "Customer churn is a major problem for telecommunication companies. This project builds an end-to-end machine learning pipeline to predict which customers are likely to churn, allowing the business to take proactive retention measures.",
+    detailedImpact: [
+      "Performed exploratory data analysis to identify key churn drivers.",
+      "Engineered features and preprocessed data for modeling.",
+      "Trained and evaluated multiple machine learning classification models.",
+      "Developed an interactive application to predict churn for new customers."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/telco/800/600",
+      "https://picsum.photos/seed/prediction/800/600",
+      "https://picsum.photos/seed/retention/800/600"
+    ]
+  },
+  {
+    title: "Random Password Maker & Strength Analyzer",
+    description: "A machine learning project to generate and analyze password strength using Logistic Regression, Random Forest, and KNN.",
+    tags: ["Python", "Machine Learning", "Classification", "Jupyter"],
+    impact: "Interactive password strength checker with real-time ML predictions",
+    image: "https://picsum.photos/seed/password/800/600",
+    github: "https://github.com/GhariebML/ICAIL_Final_Graduation_Project_Random_Password_Maker",
+    demo: "#",
+    problemStatement: "Users often struggle to create secure passwords and understand what makes them strong. This project bridges that gap by providing a tool that not only generates secure passwords based on custom rules but also evaluates their strength using trained machine learning models.",
+    detailedImpact: [
+      "Developed an interactive UI for password generation.",
+      "Trained Logistic Regression, Random Forest, and KNN models on a labeled Kaggle dataset.",
+      "Created a real-time password strength checker.",
+      "Built a complete data science workflow from EDA to model deployment in a Jupyter environment."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/cybersecurity/800/600",
+      "https://picsum.photos/seed/password/800/600",
+      "https://picsum.photos/seed/lock/800/600"
+    ]
+  },
+  {
+    title: "Applied AI & Data Analytics Portfolio",
+    description: "Hands-on projects developed during the Digilains Applied AI & Data Analytics Diploma, covering Python, SQL, ML, and Deep Learning.",
+    tags: ["Python", "SQL", "Machine Learning", "Deep Learning"],
+    impact: "Comprehensive portfolio of industry-ready data analytics projects",
+    image: "https://picsum.photos/seed/analytics/800/600",
+    github: "https://github.com/GhariebML/Applied_AI_Data_Analytics_Projects_Digilains_Diploma",
+    demo: "#",
+    problemStatement: "Building industry-ready skills requires practical, hands-on experience. This repository serves as a centralized portfolio of applied projects demonstrating proficiency in various data science and AI domains.",
+    detailedImpact: [
+      "Completed practical projects in Data Analysis using Python and SQL.",
+      "Implemented Machine Learning and Deep Learning models for real-world scenarios.",
+      "Demonstrated end-to-end applied AI workflows.",
+      "Continuously updated with new skills and project implementations."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/data/800/600",
+      "https://picsum.photos/seed/analytics/800/600",
+      "https://picsum.photos/seed/dashboard/800/600"
+    ]
+  },
+  {
+    title: "IBM Data Science Professional Certificate",
+    description: "A complete portfolio of all projects, notes, and assignments from the 10-course IBM Data Science Professional Certificate.",
+    tags: ["Data Science", "Python", "SQL", "Data Visualization"],
+    impact: "Completed 10 comprehensive courses covering the full data science methodology",
+    image: "https://picsum.photos/seed/ibm/800/600",
+    github: "https://github.com/GhariebML/IBM_Data_Science_Professional_Certificate",
+    demo: "https://www.coursera.org/account/accomplishments/specialization/9JPL43YELY5B",
+    problemStatement: "Mastering data science requires a structured approach covering methodology, tools, and applied projects. This repository documents the journey through the rigorous IBM certification program.",
+    detailedImpact: [
+      "Mastered Python, SQL, and data visualization libraries (Matplotlib, Seaborn).",
+      "Applied data science methodology to real-world datasets.",
+      "Completed the Applied Data Science Capstone project.",
+      "Earned the official IBM Data Science Professional Certificate."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/certificate/800/600",
+      "https://picsum.photos/seed/science/800/600",
+      "https://picsum.photos/seed/ibm/800/600"
+    ]
+  },
+  {
+    title: "Machine Learning Complete Course",
+    description: "Comprehensive implementation of machine learning algorithms and concepts using Python.",
+    tags: ["Machine Learning", "Python", "Algorithms", "Data Science"],
+    impact: "Extensive repository of ML algorithms and practical implementations",
+    image: "https://picsum.photos/seed/mlcourse/800/600",
+    github: "https://github.com/GhariebML/ML_Complete_Course_By_Python",
+    demo: "#",
+    problemStatement: "Understanding machine learning requires deep diving into algorithms and their implementations. This project serves as a comprehensive guide and code repository for various ML techniques.",
+    detailedImpact: [
+      "Implemented core machine learning algorithms from scratch and using libraries.",
+      "Created educational notebooks for understanding complex ML concepts.",
+      "Built a reference library for future machine learning projects.",
+      "Demonstrated strong foundational knowledge in ML theory and practice."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/machinelearning/800/600",
+      "https://picsum.photos/seed/algorithm/800/600",
+      "https://picsum.photos/seed/pythoncode/800/600"
+    ]
+  },
+  {
+    title: "The Complete Deep Learning Course",
+    description: "Comprehensive deep learning projects and hands-on notebooks covering core AI concepts, model building, and real-world applications.",
+    tags: ["Deep Learning", "AI", "Python", "Neural Networks"],
+    impact: "Extensive collection of deep learning models and real-world AI applications",
+    image: "https://picsum.photos/seed/deeplearning/800/600",
+    github: "https://github.com/GhariebML/The_Complete_Deep_Learning_Course",
+    demo: "#",
+    problemStatement: "Mastering deep learning requires hands-on practice with various architectures like CNNs, RNNs, and Transformers. This repository documents a comprehensive journey through building and training complex neural networks.",
+    detailedImpact: [
+      "Built and trained deep learning models for image and text data.",
+      "Implemented core AI concepts using modern frameworks like TensorFlow and PyTorch.",
+      "Developed real-world applications demonstrating the power of neural networks.",
+      "Created a robust portfolio of advanced AI techniques."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/deeplearning/800/600",
+      "https://picsum.photos/seed/neuralnetwork/800/600",
+      "https://picsum.photos/seed/artificialintelligence/800/600"
+    ]
+  },
+  {
+    title: "NLP Text Representation Techniques",
+    description: "A comprehensive notebook demonstrating various text representation techniques in Natural Language Processing (NLP), including Bag of Words, TF-IDF, Word2Vec, and BERT embeddings.",
+    tags: ["NLP", "TF-IDF", "Word2Vec", "BERT"],
+    impact: "Detailed exploration of text vectorization methods for machine learning",
+    image: "https://picsum.photos/seed/nlp/800/600",
+    github: "https://github.com/GhariebML/NLP_Text_Representation_Techniques",
+    demo: "#",
+    problemStatement: "Converting text into numerical data is a foundational step in NLP. This project explores and compares different text representation techniques to understand their strengths and optimal use cases.",
+    detailedImpact: [
+      "Implemented traditional text vectorization methods like Bag of Words and TF-IDF.",
+      "Explored dense word embeddings using Word2Vec.",
+      "Utilized state-of-the-art transformer models (BERT) for contextual embeddings.",
+      "Provided a clear comparative analysis of different NLP representation techniques."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/nlp/800/600",
+      "https://picsum.photos/seed/text/800/600",
+      "https://picsum.photos/seed/language/800/600"
+    ]
+  },
+  {
+    title: "SQL Ultimate Course",
+    description: "The most comprehensive SQL guide from a real-world expert! Learn everything from basics to advanced queries, optimizations, and real-world SQL.",
+    tags: ["SQL", "Database", "Data Analysis", "Optimization"],
+    impact: "Mastery of database querying and data manipulation",
+    image: "https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg",
+    github: "https://github.com/GhariebML/sql-ultimate-course",
+    demo: "#",
+    problemStatement: "Efficient data retrieval and manipulation are critical for any data professional. This repository contains comprehensive exercises and notes covering advanced SQL querying and database optimization.",
+    detailedImpact: [
+      "Mastered complex SQL queries, including window functions and CTEs.",
+      "Learned database optimization techniques for handling large datasets.",
+      "Applied SQL to real-world data analysis scenarios.",
+      "Built a strong foundation in relational database management."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/database/800/600",
+      "https://picsum.photos/seed/sql/800/600",
+      "https://picsum.photos/seed/server/800/600"
+    ]
+  },
+  {
+    title: "Computer Vision Projects",
+    description: "All Computer Vision Projects - Beginner to Advanced. Covering image processing, object detection, and deep learning applications in vision.",
+    tags: ["Computer Vision", "OpenCV", "Deep Learning", "Image Processing"],
+    impact: "Diverse portfolio of computer vision applications and techniques",
+    image: "https://picsum.photos/seed/cv/800/600",
+    github: "https://github.com/GhariebML/Computer-Vision-Projects",
+    demo: "#",
+    problemStatement: "Computer vision is a rapidly evolving field with numerous applications. This repository aggregates various projects to demonstrate proficiency in image processing, object detection, and advanced visual AI tasks.",
+    detailedImpact: [
+      "Implemented fundamental image processing techniques using OpenCV.",
+      "Built object detection and image classification models.",
+      "Applied deep learning architectures to complex visual tasks.",
+      "Created a comprehensive showcase of computer vision capabilities."
+    ],
+    gallery: [
+      "https://picsum.photos/seed/computervision/800/600",
+      "https://picsum.photos/seed/camera/800/600",
+      "https://picsum.photos/seed/imageprocessing/800/600"
+    ]
+  }
+];
 
-  const images = project.gallery && project.gallery.length > 0 ? project.gallery : [project.image];
-  const hasVideo = !!project.videoUrl;
-
-  useEffect(() => {
-    if (hasVideo && videoRef.current) {
-      if (isHovered) {
-        videoRef.current.play().catch(() => {});
-      } else {
-        videoRef.current.pause();
-      }
-    }
-  }, [isHovered, hasVideo]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePosition({ x, y });
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setMousePosition({ x: 0, y: 0 });
-  };
-
-  const nextImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prevImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
-
-  return (
-    <div 
-      className="relative h-64 overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors duration-700 z-10 pointer-events-none" />
-      
-      <motion.div 
-        style={{ y }} 
-        className="w-full h-[120%] -mt-[10%]"
-        animate={{
-          y: isHovered ? -20 : 0
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      >
-        {hasVideo ? (
-          <div className="w-full h-full relative">
-            <motion.img 
-              src={project.image} 
-              alt={project.title} 
-              className={`absolute inset-0 w-full h-full object-cover origin-center transition-opacity duration-500 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
-              animate={{
-                x: isHovered ? mousePosition.x * -30 : 0,
-                y: isHovered ? mousePosition.y * -30 : 0,
-                scale: isHovered ? 1.15 : 1
-              }}
-              transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            />
-            {project.videoUrl?.includes('youtube.com') || project.videoUrl?.includes('youtu.be') || project.videoUrl?.includes('vimeo.com') ? (
-              <div className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-                <iframe
-                  src={`${project.videoUrl}${project.videoUrl.includes('?') ? '&' : '?'}autoplay=${isHovered ? 1 : 0}&mute=1&controls=0&loop=1`}
-                  className="w-full h-full object-cover pointer-events-none"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                />
-              </div>
-            ) : (
-              <video
-                ref={videoRef}
-                src={project.videoUrl}
-                muted
-                loop
-                playsInline
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-              />
-            )}
-            {/* Video Indicator */}
-            <div className={`absolute top-4 right-4 z-20 transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
-              <div className="flex items-center gap-1.5 px-3 py-1.5 bg-black/50 backdrop-blur-md rounded-full text-white text-xs font-medium border border-white/10">
-                <Play className="w-3.5 h-3.5 fill-current" />
-                Video
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="w-full h-full relative">
-            <motion.img 
-              key={currentIndex}
-              src={images[currentIndex]} 
-              alt={`${project.title} - Image ${currentIndex + 1}`} 
-              className="w-full h-full object-cover origin-center"
-              animate={{
-                x: isHovered ? mousePosition.x * -30 : 0,
-                y: isHovered ? mousePosition.y * -30 : 0,
-                scale: isHovered ? 1.15 : 1,
-                opacity: 1
-              }}
-              initial={{ opacity: 0.8 }}
-              transition={{ type: "spring", stiffness: 100, damping: 20 }}
-              loading="lazy"
-            />
-          </div>
-        )}
-      </motion.div>
-
-      {/* Navigation Controls for Gallery */}
-      {!hasVideo && images.length > 1 && (
-        <div className={`absolute inset-0 z-20 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-          <button 
-            onClick={prevImage}
-            className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all transform hover:scale-110"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button 
-            onClick={nextImage}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black/50 hover:bg-black/80 text-white rounded-full backdrop-blur-sm transition-all transform hover:scale-110"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                onClick={(e) => { e.stopPropagation(); setCurrentIndex(i); }}
-                className={`w-2 h-2 rounded-full transition-all ${i === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'}`}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ProjectCard = ({ project, index, onClick, onTagClick, selectedTags = [] }: { key?: number | string, project: Project, index: number, onClick: () => void, onTagClick: (tag: string) => void, selectedTags?: string[] }) => {
+const ProjectCard = ({ project, index, onClick, selectedTags = [] }: { key?: number | string, project: Project, index: number, onClick: () => void, selectedTags?: string[] }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "200px" });
-  
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"]
@@ -165,170 +206,101 @@ const ProjectCard = ({ project, index, onClick, onTagClick, selectedTags = [] }:
 
   return (
     <motion.div
-      layout
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.9 }}
       whileHover="hover"
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       onClick={onClick}
-      className="group bg-white dark:bg-[#111] rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 hover:shadow-[0_20px_40px_rgba(59,130,246,0.15)] dark:hover:shadow-[0_20px_40px_rgba(59,130,246,0.25)] hover:border-blue-300 dark:hover:border-blue-500/50 transition-all duration-500 hover:-translate-y-3 cursor-pointer min-h-[500px]"
+      className="group bg-white rounded-2xl overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
     >
-      {isInView ? (
-        <>
-          <ProjectMedia project={project} y={y} />
-          
-          <div className="p-8">
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.tags.map((tag, i) => {
-                const isSelected = selectedTags.includes(tag);
-                return (
-                  <motion.button 
-                    key={i} 
-                    whileTap={{ scale: 0.95 }}
-                    animate={isSelected ? { 
-                      scale: [1, 1.15, 1],
-                      boxShadow: [
-                        "0px 0px 0px rgba(59, 130, 246, 0)",
-                        "0px 0px 15px rgba(59, 130, 246, 0.5)",
-                        "0px 0px 0px rgba(59, 130, 246, 0)"
-                      ],
-                      transition: { duration: 0.4 }
-                    } : {}}
-                    onClick={(e) => { e.stopPropagation(); onTagClick(tag); }}
-                    className={`px-3 py-1 text-xs font-medium rounded-full border transition-all duration-300 hover:scale-105 hover:shadow-md ${
-                      isSelected 
-                        ? 'bg-slate-800 dark:bg-blue-900/30 text-white dark:text-blue-300 border-slate-900 dark:border-blue-500/30 shadow-sm' 
-                        : 'bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-white/10 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-300 hover:border-blue-200 dark:hover:border-blue-500/30'
-                    }`}
-                  >
-                    {tag}
-                  </motion.button>
-                );
-              })}
-            </div>
-            
-            <h4 
-              onClick={(e) => { e.stopPropagation(); onClick(); }}
-              className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 hover:underline inline-block"
-            >
-              {project.title}
-            </h4>
-            
-            <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed line-clamp-3 transition-colors duration-300">
-              {project.description}
-            </p>
-            
-            {project.techStack && project.techStack.length > 0 && (
-              <div className="mb-6 flex flex-wrap gap-1.5">
-                {project.techStack.slice(0, 4).map((tech, i) => (
-                  <span key={i} className="px-2 py-0.5 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 text-[10px] uppercase tracking-wider font-semibold rounded border border-slate-200 dark:border-white/10">
-                    {tech}
-                  </span>
-                ))}
-                {project.techStack.length > 4 && (
-                  <span className="px-2 py-0.5 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 text-[10px] uppercase tracking-wider font-semibold rounded border border-slate-200 dark:border-white/10">
-                    +{project.techStack.length - 4}
-                  </span>
-                )}
-              </div>
-            )}
-            
-            <div className="mb-6 p-3 bg-slate-50 dark:bg-blue-900/10 rounded-lg border border-slate-200 dark:border-blue-500/20 transition-colors duration-300">
-              <p className="text-sm text-slate-700 dark:text-blue-300 font-medium transition-colors duration-300">
-                <span className="font-bold">Impact:</span> {project.impact}
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-4 pt-4 border-t border-slate-200 dark:border-white/10 transition-colors duration-300">
-              <button 
-                className="flex items-center justify-center w-full px-4 py-2 bg-slate-900 dark:bg-white hover:bg-slate-800 dark:hover:bg-slate-200 text-white dark:text-slate-900 text-sm font-medium rounded-lg transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
-                onClick={(e) => { e.stopPropagation(); window.open(project.github, '_blank'); }}
+      <div className="relative h-64 overflow-hidden">
+        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors duration-700 z-10" />
+        <motion.div style={{ y }} className="w-full h-[120%] -mt-[10%]">
+          <motion.img 
+            src={project.image} 
+            alt={project.title} 
+            className="w-full h-full object-cover origin-center"
+            variants={{
+              hover: { 
+                scale: 1.15,
+                x: "-3%",
+                y: "-2%",
+                transition: {
+                  duration: 8,
+                  ease: "linear"
+                }
+              }
+            }}
+            transition={{ 
+              duration: 1.2, 
+              ease: "easeOut"
+            }}
+            referrerPolicy="no-referrer"
+          />
+        </motion.div>
+      </div>
+      
+      <div className="p-8">
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.tags.map((tag, i) => {
+            const isSelected = selectedTags.includes(tag);
+            return (
+              <span 
+                key={i} 
+                className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors duration-300 ${
+                  isSelected 
+                    ? 'bg-blue-100 text-blue-700 border-blue-200 shadow-sm' 
+                    : 'bg-slate-50 text-slate-600 border-slate-100'
+                }`}
               >
-                <Github className="w-4 h-4 mr-2" /> View on GitHub
-              </button>
-              <button 
-                className="flex items-center justify-center w-full px-4 py-2 bg-white dark:bg-[#111] hover:bg-slate-50 dark:hover:bg-[#1a1a1a] text-slate-900 dark:text-white border border-slate-200 dark:border-white/10 text-sm font-medium rounded-lg transition-all hover:border-blue-200 dark:hover:border-blue-500/30 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-sm hover:-translate-y-0.5"
-                onClick={(e) => { e.stopPropagation(); window.open(project.demo, '_blank'); }}
-              >
-                <ExternalLink className="w-4 h-4 mr-2" /> Live Demo
-              </button>
-            </div>
-          </div>
-        </>
-      ) : null}
+                {tag}
+              </span>
+            );
+          })}
+        </div>
+        
+        <h4 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+          {project.title}
+        </h4>
+        
+        <p className="text-slate-600 mb-6 leading-relaxed line-clamp-3">
+          {project.description}
+        </p>
+        
+        <div className="mb-6 p-3 bg-blue-50/50 rounded-lg border border-blue-100/50">
+          <p className="text-sm text-blue-800 font-medium">
+            <span className="font-bold">Impact:</span> {project.impact}
+          </p>
+        </div>
+        
+        <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+          <button 
+            className="flex items-center text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+            onClick={(e) => { e.stopPropagation(); window.open(project.github, '_blank'); }}
+          >
+            <Github className="w-4 h-4 mr-2" /> Code
+          </button>
+          <button 
+            className="flex items-center text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+            onClick={(e) => { e.stopPropagation(); window.open(project.demo, '_blank'); }}
+          >
+            <ExternalLink className="w-4 h-4 mr-2" /> Live Demo
+          </button>
+        </div>
+      </div>
     </motion.div>
   );
 };
 
-const ProjectSkeleton = () => (
-  <div className="bg-white dark:bg-[#111] rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 min-h-[500px] animate-pulse">
-    {/* Image placeholder */}
-    <div className="h-64 bg-slate-200 dark:bg-slate-800 w-full"></div>
-    
-    {/* Content placeholder */}
-    <div className="p-8">
-      {/* Tags */}
-      <div className="flex gap-2 mb-4">
-        <div className="h-6 w-16 bg-slate-200 dark:bg-slate-800 rounded-full"></div>
-        <div className="h-6 w-20 bg-slate-200 dark:bg-slate-800 rounded-full"></div>
-        <div className="h-6 w-14 bg-slate-200 dark:bg-slate-800 rounded-full"></div>
-      </div>
-      
-      {/* Title */}
-      <div className="h-7 bg-slate-200 dark:bg-slate-800 rounded w-3/4 mb-4"></div>
-      
-      {/* Description */}
-      <div className="space-y-2 mb-6">
-        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
-        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
-        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-5/6"></div>
-      </div>
-      
-      {/* Impact box */}
-      <div className="h-12 bg-slate-200 dark:bg-slate-800 rounded-lg mb-6"></div>
-      
-      {/* Buttons */}
-      <div className="flex gap-4 pt-4 border-t border-slate-200 dark:border-white/10">
-        <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded-lg w-full"></div>
-        <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded-lg w-full"></div>
-      </div>
-    </div>
-  </div>
-);
+const allTags = Array.from(new Set(projects.flatMap(p => p.tags))).sort();
 
 const Projects = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const projectsPerPage = 4;
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch('/api/projects');
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects data');
-        }
-        const data = await response.json();
-        setProjects(data);
-        setIsLoading(false);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-        setIsLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
-  const allTags = Array.from(new Set(projects.flatMap(p => p.tags))).sort();
 
   const filteredProjects = projects.filter(project => 
     selectedTags.length === 0 || selectedTags.every(tag => project.tags.includes(tag))
@@ -357,22 +329,21 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-24 bg-transparent relative overflow-hidden transition-colors duration-300">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent" />
+    <section id="projects" className="py-24 bg-white relative overflow-hidden border-t border-slate-100">
       {/* Background decorative elements */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none transition-colors duration-300" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-[120px] pointer-events-none transition-colors duration-300" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-100/40 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-8">
           <div>
-            <h2 className="text-sm font-bold tracking-widest text-slate-700 dark:text-blue-400 uppercase mb-3 flex items-center gap-2 transition-colors duration-300">
-              <span className="w-8 h-[2px] bg-slate-700 dark:bg-blue-400 transition-colors duration-300"></span>
+            <h2 className="text-sm font-bold tracking-widest text-cyan-600 uppercase mb-3 flex items-center gap-2">
+              <span className="w-8 h-[2px] bg-cyan-600"></span>
               Portfolio
             </h2>
-            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white transition-colors duration-300">Featured Projects</h3>
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900">Featured Projects</h3>
           </div>
-          <a href="https://github.com/GhariebML" target="_blank" rel="noopener noreferrer" className="hidden md:flex items-center text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-blue-400 font-medium transition-colors mt-4 md:mt-0">
+          <a href="https://github.com/GhariebML" target="_blank" rel="noopener noreferrer" className="hidden md:flex items-center text-slate-600 hover:text-cyan-600 font-medium transition-colors mt-4 md:mt-0">
             View GitHub Profile <ArrowUpRight className="ml-2 w-4 h-4" />
           </a>
         </div>
@@ -380,94 +351,60 @@ const Projects = () => {
         {/* Filters */}
         <div className="mb-12">
           <div className="flex flex-wrap gap-3 items-center">
-            <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 mr-1 transition-colors duration-300">Filter by:</span>
+            <span className="text-sm font-semibold text-slate-700 mr-1">Filter by:</span>
             
-            <motion.button
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={clearFilters}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 hover:scale-105 hover:shadow-md ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
                 selectedTags.length === 0
-                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
-                  : 'bg-white dark:bg-[#111] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-300 hover:border-blue-200 dark:hover:border-blue-500/30'
+                  ? 'bg-slate-900 text-white shadow-md'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-slate-900'
               }`}
             >
               All Projects
               {selectedTags.length > 0 && (
-                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 hover:text-slate-900 dark:hover:text-white transition-colors">
+                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300 hover:text-slate-900 transition-colors">
                   <X size={12} />
                 </span>
               )}
-            </motion.button>
+            </button>
             
-            <div className="w-px h-6 bg-slate-200 dark:bg-white/10 mx-1 hidden sm:block transition-colors duration-300"></div>
+            <div className="w-px h-6 bg-slate-200 mx-1 hidden sm:block"></div>
 
             {allTags.map(tag => (
-              <motion.button
+              <button
                 key={tag}
-                whileTap={{ scale: 0.95 }}
-                animate={selectedTags.includes(tag) ? { 
-                  scale: [1, 1.15, 1],
-                  boxShadow: [
-                    "0px 0px 0px rgba(59, 130, 246, 0)",
-                    "0px 0px 15px rgba(59, 130, 246, 0.5)",
-                    "0px 0px 0px rgba(59, 130, 246, 0)"
-                  ],
-                  transition: { duration: 0.4 }
-                } : {}}
                 onClick={() => toggleTag(tag)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   selectedTags.includes(tag)
-                    ? 'bg-slate-800 dark:bg-blue-600 text-white shadow-md scale-105 ring-2 ring-slate-800 dark:ring-blue-600 ring-offset-2 dark:ring-offset-[#0a0a0a]'
-                    : 'bg-white dark:bg-[#111] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-300 hover:border-blue-200 dark:hover:border-blue-500/30'
+                    ? 'bg-cyan-600 text-white shadow-md scale-105 ring-2 ring-cyan-600 ring-offset-2'
+                    : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-cyan-300'
                 }`}
               >
                 {tag}
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
 
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            {[...Array(projectsPerPage)].map((_, i) => (
-              <ProjectSkeleton key={i} />
+        {currentProjects.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {currentProjects.map((project, index) => (
+              <ProjectCard 
+                key={startIndex + index} 
+                project={project} 
+                index={index} 
+                onClick={() => setSelectedProject(project)}
+                selectedTags={selectedTags}
+              />
             ))}
           </div>
-        ) : error ? (
-          <div className="flex flex-col items-center justify-center text-center py-24 px-6 bg-white/50 dark:bg-[#111]/50 backdrop-blur-sm rounded-3xl border border-red-200 dark:border-red-900/30 transition-colors duration-300">
-            <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-6">
-              <AlertCircle className="w-8 h-8 text-red-500 dark:text-red-400" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Oops! Something went wrong</h3>
-            <p className="text-slate-600 dark:text-slate-400 max-w-md mb-8">{error}</p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium rounded-full hover:bg-slate-800 dark:hover:bg-slate-200 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5"
-            >
-              Try Again
-            </button>
-          </div>
-        ) : currentProjects.length > 0 ? (
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-            <AnimatePresence mode="popLayout">
-              {currentProjects.map((project, index) => (
-                <ProjectCard 
-                  key={project.title} 
-                  project={project} 
-                  index={index} 
-                  onClick={() => setSelectedProject(project)}
-                  onTagClick={toggleTag}
-                  selectedTags={selectedTags}
-                />
-              ))}
-            </AnimatePresence>
-          </motion.div>
         ) : (
-          <div className="text-center py-20 bg-white dark:bg-[#111] rounded-3xl border border-slate-200 dark:border-white/10 transition-colors duration-300">
-            <p className="text-slate-500 dark:text-slate-400 text-lg transition-colors duration-300">No projects found matching all selected filters.</p>
+          <div className="text-center py-20 bg-slate-50 rounded-3xl border border-slate-100">
+            <p className="text-slate-500 text-lg">No projects found matching all selected filters.</p>
             <button 
               onClick={clearFilters}
-              className="mt-4 text-slate-700 dark:text-blue-400 font-medium hover:underline inline-flex items-center transition-colors duration-300"
+              className="mt-4 text-blue-600 font-medium hover:underline inline-flex items-center"
             >
               <X size={16} className="mr-1" /> Clear all filters
             </button>
@@ -479,7 +416,7 @@ const Projects = () => {
             <button 
               onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
               disabled={currentPage === 1}
-              className={`p-2 rounded-full transition-colors ${currentPage === 1 ? 'text-slate-300 dark:text-slate-600 cursor-not-allowed' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-blue-400'}`}
+              className={`p-2 rounded-full transition-colors ${currentPage === 1 ? 'text-slate-300 cursor-not-allowed' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600'}`}
               aria-label="Previous page"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -492,8 +429,8 @@ const Projects = () => {
                   onClick={() => handlePageChange(i + 1)}
                   className={`w-10 h-10 rounded-full font-medium transition-all duration-300 ${
                     currentPage === i + 1 
-                      ? 'bg-slate-800 dark:bg-blue-600 text-white shadow-md scale-110' 
-                      : 'bg-white dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 hover:border-slate-400 dark:hover:border-blue-500/50'
+                      ? 'bg-blue-600 text-white shadow-md scale-110' 
+                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200 hover:border-blue-300'
                   }`}
                 >
                   {i + 1}
@@ -504,7 +441,7 @@ const Projects = () => {
             <button 
               onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className={`p-2 rounded-full transition-colors ${currentPage === totalPages ? 'text-slate-300 dark:text-slate-600 cursor-not-allowed' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-blue-400'}`}
+              className={`p-2 rounded-full transition-colors ${currentPage === totalPages ? 'text-slate-300 cursor-not-allowed' : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600'}`}
               aria-label="Next page"
             >
               <ChevronRight className="w-6 h-6" />
@@ -513,7 +450,7 @@ const Projects = () => {
         )}
         
         <div className="mt-12 text-center md:hidden">
-          <a href="https://github.com/GhariebML" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-slate-700 dark:text-blue-400 font-medium transition-colors duration-300">
+          <a href="https://github.com/GhariebML" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-blue-600 font-medium">
             View GitHub Profile <ArrowUpRight className="ml-2 w-4 h-4" />
           </a>
         </div>

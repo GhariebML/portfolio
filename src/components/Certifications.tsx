@@ -49,11 +49,10 @@ const certifications = [
 
 const Certifications = () => {
   return (
-    <section id="certifications" className="py-24 bg-transparent relative overflow-hidden transition-colors duration-300">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent" />
+    <section id="certifications" className="py-24 bg-white relative overflow-hidden border-t border-slate-100">
       {/* Background decorative elements */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none transition-colors duration-300" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100/40 dark:bg-blue-900/10 rounded-full blur-[120px] pointer-events-none transition-colors duration-300" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-100/40 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
@@ -63,15 +62,15 @@ const Certifications = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-sm font-bold tracking-widest text-slate-700 dark:text-blue-400 uppercase mb-3 flex items-center justify-center gap-2 transition-colors duration-300">
-              <span className="w-8 h-[2px] bg-slate-700 dark:bg-blue-400 transition-colors duration-300"></span>
+            <h2 className="text-sm font-bold tracking-widest text-cyan-600 uppercase mb-3 flex items-center justify-center gap-2">
+              <span className="w-8 h-[2px] bg-cyan-600"></span>
               Credentials
-              <span className="w-8 h-[2px] bg-slate-700 dark:bg-blue-400 transition-colors duration-300"></span>
+              <span className="w-8 h-[2px] bg-cyan-600"></span>
             </h2>
-            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6 transition-colors duration-300">
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
               Licenses & Certifications
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed transition-colors duration-300">
+            <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed">
               Continuous learning is at the core of my journey. Here are some of the professional certifications I have earned to stay at the forefront of AI and Data Science.
             </p>
           </motion.div>
@@ -85,17 +84,17 @@ const Certifications = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative bg-white dark:bg-[#111] rounded-3xl p-8 border border-slate-200 dark:border-white/10 shadow-sm hover:border-slate-300 dark:hover:border-blue-500/30 hover:shadow-[0_8px_30px_rgba(15,23,42,0.05)] dark:hover:shadow-[0_8px_30px_rgba(37,99,235,0.15)] transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
+              className="group relative bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:border-cyan-200 hover:shadow-[0_8px_30px_rgba(6,182,212,0.1)] transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
             >
               <div className="flex items-start justify-between mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 dark:bg-blue-900/20 text-slate-700 dark:text-blue-400 flex items-center justify-center border border-slate-200 dark:border-blue-500/20 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center border border-cyan-100 group-hover:scale-110 transition-transform duration-300">
                   <cert.icon className="w-6 h-6" />
                 </div>
                 <a 
                   href={cert.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-blue-400 transition-colors"
+                  className="text-slate-400 hover:text-cyan-600 transition-colors"
                   aria-label={`Verify ${cert.title}`}
                 >
                   <ExternalLink className="w-5 h-5" />
@@ -105,22 +104,22 @@ const Certifications = () => {
               <div className="flex-1">
                 {cert.link && cert.link !== "#" ? (
                   <a href={cert.link} target="_blank" rel="noopener noreferrer">
-                    <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors hover:underline">
+                    <h4 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-cyan-600 transition-colors hover:underline">
                       {cert.title}
                     </h4>
                   </a>
                 ) : (
-                  <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h4 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-cyan-600 transition-colors">
                     {cert.title}
                   </h4>
                 )}
-                <p className="text-slate-600 dark:text-slate-400 font-medium mb-4 transition-colors duration-300">
+                <p className="text-slate-600 font-medium mb-4">
                   {cert.issuer}
                 </p>
               </div>
               
-              <div className="pt-6 border-t border-slate-200 dark:border-white/10 mt-auto transition-colors duration-300">
-                <span className="text-sm font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-white/5 px-3 py-1 rounded-full border border-slate-200 dark:border-white/10 transition-colors duration-300">
+              <div className="pt-6 border-t border-slate-100 mt-auto">
+                <span className="text-sm font-medium text-slate-600 bg-slate-50 px-3 py-1 rounded-full border border-slate-200">
                   Issued {cert.date}
                 </span>
               </div>

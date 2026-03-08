@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle2, FileText, Briefcase } from 'lucide-react';
 import ResumeModal from './ResumeModal';
-import Lottie from 'lottie-react';
-import networkAnimation from '../assets/network-lottie.json';
 
 const Hero = () => {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
@@ -21,26 +19,17 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center bg-transparent overflow-hidden selection:bg-blue-500/30 selection:text-blue-900 dark:selection:bg-blue-500/30 dark:selection:text-blue-200 transition-colors duration-300">
+    <section className="relative min-h-screen flex items-center bg-[#050505] overflow-hidden selection:bg-cyan-500/30 selection:text-cyan-200">
       <ResumeModal isOpen={isResumeOpen} onClose={handleCloseResume} autoDownload={autoDownload} />
       {/* Background Gradient & Animated Movement */}
-      <div className="absolute inset-0 bg-transparent transition-colors duration-300">
-        <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] bg-slate-100/80 dark:bg-blue-900/10 rounded-full blur-[120px] animate-pulse duration-[4000ms]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-slate-100/80 dark:bg-blue-900/10 rounded-full blur-[120px] animate-pulse duration-[5000ms]" />
-        <div className="absolute top-[30%] left-[20%] w-[40vw] h-[40vw] bg-slate-50/80 dark:bg-indigo-900/5 rounded-full blur-[100px]" />
+      <div className="absolute inset-0 bg-[#050505]">
+        <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] bg-blue-900/10 rounded-full blur-[120px] animate-pulse duration-[4000ms]" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-cyan-900/10 rounded-full blur-[120px] animate-pulse duration-[5000ms]" />
+        <div className="absolute top-[30%] left-[20%] w-[40vw] h-[40vw] bg-indigo-900/5 rounded-full blur-[100px]" />
       </div>
 
       {/* Grid Pattern Overlay (Subtle Tech Feel) */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none transition-colors duration-300" />
-
-      {/* Subtle Lottie Animation */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-10 dark:opacity-20 pointer-events-none z-0">
-        <Lottie 
-          animationData={networkAnimation} 
-          loop={true} 
-          className="w-full h-full max-w-4xl object-contain"
-        />
-      </div>
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-16 relative z-10 w-full pt-20 pb-20">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
@@ -55,22 +44,22 @@ const Hero = () => {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="relative mb-8"
             >
-              <div className="inline-block mb-4 px-3 py-1 rounded-full border border-slate-200 dark:border-blue-500/30 bg-slate-50 dark:bg-blue-950/30 backdrop-blur-md transition-colors duration-300">
-                <span className="text-slate-700 dark:text-blue-400 font-mono text-xs md:text-sm tracking-wider font-medium uppercase transition-colors duration-300">
+              <div className="inline-block mb-4 px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/30 backdrop-blur-md">
+                <span className="text-cyan-400 font-mono text-xs md:text-sm tracking-wider font-medium uppercase">
                   Data Scientist & Applied AI Practitioner
                 </span>
               </div>
               
-              <h1 className="font-black tracking-tight leading-[0.9] text-slate-900 dark:text-slate-50 transition-colors duration-300">
+              <h1 className="font-black tracking-tight leading-[0.9] text-slate-50">
                 <span className="block text-[12vw] sm:text-[10vw] lg:text-[6.5rem] xl:text-[7.5rem] drop-shadow-xl">
                   MOHAMED
                 </span>
-                <span className="block text-[12vw] sm:text-[10vw] lg:text-[6.5rem] xl:text-[7.5rem] text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-blue-500 dark:via-blue-400 dark:to-blue-500 bg-[length:200%_auto] animate-gradient">
+                <span className="block text-[12vw] sm:text-[10vw] lg:text-[6.5rem] xl:text-[7.5rem] text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 bg-[length:200%_auto] animate-gradient">
                   GHARIEB
                 </span>
               </h1>
               {/* Soft Radial Glow behind Name */}
-              <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-slate-200/30 dark:bg-blue-500/10 blur-[120px] -z-10 rounded-full pointer-events-none transition-colors duration-300" />
+              <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-cyan-500/10 blur-[120px] -z-10 rounded-full pointer-events-none" />
             </motion.div>
 
             {/* Value Proposition */}
@@ -78,9 +67,9 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-2xl md:text-3xl lg:text-4xl font-medium text-slate-600 dark:text-slate-300 mb-8 max-w-4xl mx-auto lg:mx-0 leading-tight transition-colors duration-300"
+              className="text-2xl md:text-3xl lg:text-4xl font-medium text-slate-300 mb-8 max-w-4xl mx-auto lg:mx-0 leading-tight"
             >
-              Transforming Data into Intelligent Solutions & <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700 dark:from-blue-400 dark:to-blue-500 font-bold">Sustainable Real-World Impact.</span>
+              Transforming Data into Intelligent Solutions & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-bold">Sustainable Real-World Impact.</span>
             </motion.h2>
             
             {/* Authority Strip */}
@@ -88,25 +77,25 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="flex flex-wrap justify-center lg:justify-start gap-y-3 gap-x-6 mb-12 text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase transition-colors duration-300"
+              className="flex flex-wrap justify-center lg:justify-start gap-y-3 gap-x-6 mb-12 text-sm md:text-base text-slate-400 font-medium tracking-wide uppercase"
             >
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-slate-700 dark:text-blue-500 transition-colors duration-300" />
+                <CheckCircle2 className="w-4 h-4 text-cyan-500" />
                 <span>Data Science</span>
               </div>
-              <div className="hidden md:block w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-colors duration-300" />
+              <div className="hidden md:block w-1 h-1 bg-slate-700 rounded-full" />
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-slate-700 dark:text-blue-500 transition-colors duration-300" />
+                <CheckCircle2 className="w-4 h-4 text-cyan-500" />
                 <span>Applied AI</span>
               </div>
-              <div className="hidden md:block w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-colors duration-300" />
+              <div className="hidden md:block w-1 h-1 bg-slate-700 rounded-full" />
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-slate-700 dark:text-blue-500 transition-colors duration-300" />
+                <CheckCircle2 className="w-4 h-4 text-cyan-500" />
                 <span>Predictive Analytics</span>
               </div>
-              <div className="hidden md:block w-1 h-1 bg-slate-300 dark:bg-slate-700 rounded-full transition-colors duration-300" />
+              <div className="hidden md:block w-1 h-1 bg-slate-700 rounded-full" />
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-slate-700 dark:text-blue-500 transition-colors duration-300" />
+                <CheckCircle2 className="w-4 h-4 text-cyan-500" />
                 <span>Sustainable Development</span>
               </div>
             </motion.div>
@@ -120,7 +109,7 @@ const Hero = () => {
             >
               <a
                 href="#projects"
-                className="group relative inline-flex items-center justify-center px-8 py-4 bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold rounded-full transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.5)] dark:shadow-[0_10px_30px_-10px_rgba(37,99,235,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(15,23,42,0.6)] dark:hover:shadow-[0_20px_40px_-10px_rgba(37,99,235,0.6)] hover:-translate-y-1 w-full sm:w-auto"
+                className="group relative inline-flex items-center justify-center px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-full transition-all duration-300 shadow-[0_10px_30px_-10px_rgba(37,99,235,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(37,99,235,0.6)] hover:-translate-y-1 w-full sm:w-auto"
               >
                 Explore Portfolio
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -129,14 +118,14 @@ const Hero = () => {
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <button
                   onClick={() => handleOpenResume(false)}
-                  className="group inline-flex items-center justify-center px-6 py-4 bg-transparent text-slate-700 dark:text-blue-400 font-semibold rounded-full border border-slate-300 dark:border-blue-500/30 hover:border-slate-500 dark:hover:border-blue-400 hover:bg-slate-50 dark:hover:bg-blue-950/10 transition-all duration-300 w-full sm:w-auto cursor-pointer"
+                  className="group inline-flex items-center justify-center px-6 py-4 bg-transparent text-cyan-400 font-semibold rounded-full border border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-950/10 transition-all duration-300 w-full sm:w-auto cursor-pointer"
                 >
                   <FileText className="mr-2 w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
                   View Resume
                 </button>
                 <a
                   href="#projects"
-                  className="group inline-flex items-center justify-center px-6 py-4 bg-transparent text-slate-600 dark:text-slate-300 font-semibold rounded-full border border-slate-200 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all duration-300 w-full sm:w-auto cursor-pointer"
+                  className="group inline-flex items-center justify-center px-6 py-4 bg-transparent text-slate-300 font-semibold rounded-full border border-slate-700 hover:border-slate-500 hover:bg-slate-800/50 transition-all duration-300 w-full sm:w-auto cursor-pointer"
                 >
                   <Briefcase className="mr-2 w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
                   Projects
@@ -153,7 +142,7 @@ const Hero = () => {
             >
               <a
                 href="#contact"
-                className="group inline-flex items-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-blue-400 transition-colors duration-300 font-medium text-sm tracking-wide"
+                className="group inline-flex items-center text-slate-400 hover:text-cyan-400 transition-colors duration-300 font-medium text-sm tracking-wide"
               >
                 Let’s Build Intelligent Systems
                 <ArrowRight className="ml-1.5 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -170,7 +159,7 @@ const Hero = () => {
               className="relative w-full max-w-[650px] lg:max-w-[800px]"
             >
               {/* Subtle Back Glow */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-slate-200/50 to-slate-100/50 dark:from-blue-600/20 dark:to-blue-500/20 blur-[60px] rounded-full transform translate-y-4 opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-cyan-500/20 blur-[60px] rounded-full transform translate-y-4 opacity-60" />
               
               <motion.div
                 animate={{ y: [0, -10, 0] }}
@@ -188,12 +177,9 @@ const Hero = () => {
                   >
                     <img 
                       src="/mohamed-gharieb.png" 
-                      alt="Mohamed Gharieb - Applied AI Engineer and Data Scientist" 
+                      alt="Mohamed Gharieb" 
                       className="w-full h-full object-cover object-top"
                       referrerPolicy="no-referrer"
-                      loading="eager"
-                      width="800"
-                      height="1000"
                     />
                   </div>
                 </div>

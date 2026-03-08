@@ -67,7 +67,7 @@ const ResumeModal = ({ isOpen, onClose, autoDownload = false }: ResumeModalProps
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-4xl max-h-[90vh] bg-slate-50 rounded-2xl shadow-2xl overflow-hidden flex flex-col print:max-h-none print:shadow-none print:rounded-none print:h-auto print:w-full"
+            className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col print:max-h-none print:shadow-none print:rounded-none print:h-auto print:w-full"
           >
             {/* Header / Toolbar */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50 print:hidden">
@@ -99,7 +99,7 @@ const ResumeModal = ({ isOpen, onClose, autoDownload = false }: ResumeModalProps
 
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-8 sm:p-12 print:overflow-visible print:p-0">
-              <div id="resume-content" className="max-w-3xl mx-auto space-y-8 text-slate-900 print:max-w-none bg-white p-8 rounded-2xl shadow-sm border border-slate-200/60">
+              <div id="resume-content" className="max-w-3xl mx-auto space-y-8 text-slate-900 print:max-w-none bg-white">
                 
                 {/* Resume Header */}
                 <header className="text-center border-b border-slate-200 pb-8">
